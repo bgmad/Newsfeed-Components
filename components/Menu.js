@@ -33,6 +33,7 @@ function getItemElement(e) {
 
 function menuMaker() {
   const menuContainer = document.createElement('div');
+  menuContainer.style.transform = 'translate(-350px)';
   menuContainer.classList.add('menu');
   const unorderedList = document.createElement('ul');
   
@@ -42,6 +43,12 @@ function menuMaker() {
   const menuButton = document.querySelector('.menu-button');
   menuButton.addEventListener('click', () => {
       menuContainer.classList.toggle('menu--open');
+      if(menuContainer.classList.value === 'menu menu--open'){
+        gsap.to('.menu', {duration: 1, x: 0});
+      }
+      else{
+        gsap.to('.menu', {duration: 1, x: -350});
+      }
   });
 
   return menuContainer;
