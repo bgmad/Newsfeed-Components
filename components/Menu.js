@@ -1,13 +1,6 @@
 // This is the data we will be using, study it but don't change anything, yet.
 
-let menuItems = [
-  'Students',
-  'Faculty',
-  "What's New",
-  'Tech Trends',
-  'Music',
-  'Log Out'
-];
+import { menuItems } from './Data.js';
 
 /* 
   Step 1: Write a component called 'menuMaker' to create a menu like the markup below:
@@ -31,3 +24,27 @@ let menuItems = [
 
   Step 6: Use 'menuMaker' to create a menu using the 'menuItems' array, and append the returned menu to the header.
 */
+
+function getItemElement(e) {
+  const item = document.createElement('li');
+  item.textContent = e;
+  return item;
+}
+
+function menuMaker() {
+  const menuContainer = document.createElement('div');
+  menuContainer.classList.add('menu');
+  const unorderedList = document.createElement('ul');
+  
+  menuItems.forEach(e => unorderedList.appendChild(getItemElement(e)));
+  menuContainer.appendChild(unorderedList);
+  
+  const menuButton = document.querySelector('.menu-button');
+  menuButton.addEventListener('click', () => {
+      menuContainer.classList.toggle('menu--open');
+  });
+
+  return menuContainer;
+}
+
+document.querySelector('.header').appendChild(menuMaker());
