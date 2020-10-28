@@ -1,7 +1,7 @@
 // This is the data we will be using to create our articles. Look at it, then proceed to line 93.
 // OPTIONAL: if you're feeling adventurous, try to make this data an export from a different module, and import it here.
 // You can read about ES6 modules here: https://exploringjs.com/es6/ch_modules.html#sec_basics-of-es6-modules
-import { data } from './Data.js';
+import { data } from "./Data.js";
 /*
   Step 1: Write a component called 'articleMaker' to create an article.
   Your component is a function that takes an article object as its only argument,
@@ -29,38 +29,50 @@ import { data } from './Data.js';
 */
 
 function articleMaker(i) {
-  const articleContainer = document.createElement('div');
-  const articleTitle = document.createElement('h2');
-  const articleDate = document.createElement('p');
-  const firstParagraph = document.createElement('p');
-  const secondParagraph = document.createElement('p');
-  const thirdParagraph = document.createElement('p');
-  const expandButton = document.createElement('span');
-  
-  articleContainer.classList.add('article');
-  articleDate.classList.add('date');
-  expandButton.classList.add('expandButton');
+  const articleContainer = document.createElement("div");
+  const articleTitle = document.createElement("h2");
+  const articleDate = document.createElement("p");
+  const firstParagraph = document.createElement("p");
+  const secondParagraph = document.createElement("p");
+  const thirdParagraph = document.createElement("p");
+  const expandButton = document.createElement("span");
+
+  articleContainer.classList.add("article");
+  articleDate.classList.add("date");
+  expandButton.classList.add("expandButton");
 
   articleTitle.textContent = data[i].title;
   articleDate.textContent = data[i].date;
   firstParagraph.textContent = data[i].firstParagraph;
   secondParagraph.textContent = data[i].secondParagraph;
   thirdParagraph.textContent = data[i].thirdParagraph;
-  expandButton.textContent = '+';
-  
+  expandButton.textContent = "Click to Expand";
+
   articleContainer.appendChild(articleTitle);
   articleContainer.appendChild(articleDate);
   articleContainer.appendChild(firstParagraph);
   articleContainer.appendChild(secondParagraph);
   articleContainer.appendChild(thirdParagraph);
   articleContainer.appendChild(expandButton);
-  
-  expandButton.addEventListener('click', function toggleArticleOpen() {
-      articleContainer.classList.toggle('article-open');
+
+  expandButton.addEventListener("click", () => {
+    let classValue = articleContainer.classList.value;
+
+    if (classValue === "article article-open") {
+      expandButton.textContent = "Click to Expand";
+      gsap.to(articleContainer, { duration: 1, height: "50px" });
+      articleContainer.classList.toggle("article-open");
+    } else if (classValue !== "article article-open") {
+      expandButton.textContent = "Click to Close";
+      gsap.to(articleContainer, { duration: 1, height: "400px" });
+      articleContainer.classList.toggle("article-open");
+    }
   });
-    
+
   return articleContainer;
 }
 
 const articlesArray = data.map((element, i) => articleMaker(i));
-articlesArray.forEach(element => document.querySelector('.articles').appendChild(element));
+articlesArray.forEach((element) =>
+  document.querySelector(".articles").appendChild(element)
+);

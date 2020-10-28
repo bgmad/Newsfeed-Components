@@ -1,6 +1,6 @@
 // This is the data we will be using, study it but don't change anything, yet.
 
-import { menuItems } from './Data.js';
+import { menuItems } from "./Data.js";
 
 /* 
   Step 1: Write a component called 'menuMaker' to create a menu like the markup below:
@@ -26,32 +26,41 @@ import { menuItems } from './Data.js';
 */
 
 function getItemElement(e) {
-  const item = document.createElement('li');
+  const item = document.createElement("li");
   item.textContent = e;
   return item;
 }
 
 function menuMaker() {
-  const menuContainer = document.createElement('div');
-  menuContainer.style.transform = 'translate(-350px)';
-  menuContainer.classList.add('menu');
-  const unorderedList = document.createElement('ul');
-  
-  menuItems.forEach(e => unorderedList.appendChild(getItemElement(e)));
+  const menuContainer = document.createElement("div");
+  menuContainer.style.transform = "translate(-350px)";
+  menuContainer.classList.add("menu");
+  const unorderedList = document.createElement("ul");
+
+  menuItems.forEach((e) => unorderedList.appendChild(getItemElement(e)));
   menuContainer.appendChild(unorderedList);
-  
-  const menuButton = document.querySelector('.menu-button');
-  menuButton.addEventListener('click', () => {
-      menuContainer.classList.toggle('menu--open');
-      if(menuContainer.classList.value === 'menu menu--open'){
-        gsap.to('.menu', {duration: 1, x: 0});
-      }
-      else{
-        gsap.to('.menu', {duration: 1, x: -350});
-      }
+
+  const menuButton = document.querySelector(".menu-button");
+  window.addEventListener("click", (e) => {
+    if (
+      e.target === menuButton &&
+      menuContainer.classList.value !== "menu menu--open"
+    ) {
+      menuContainer.classList.toggle("menu--open");
+      gsap.to(".menu", { duration: 0.8, x: 0 });
+    } else if (
+      e.target !== menuContainer &&
+      e.path[1] !== unorderedList &&
+      menuContainer.classList.value === "menu menu--open"
+    ) {
+      console.log(menuContainer, e.path[1]);
+
+      menuContainer.classList.toggle("menu--open");
+      gsap.to(".menu", { duration: 0.6, x: -350 });
+    }
   });
 
   return menuContainer;
 }
 
-document.querySelector('.header').appendChild(menuMaker());
+document.querySelector(".header").appendChild(menuMaker());
